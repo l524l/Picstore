@@ -2,16 +2,21 @@ package site.l524l.picstore.picture;
 
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import site.l524l.picstore.category.Category;
 import site.l524l.picstore.media.Media;
 
 @Entity
 public class Picture implements Media {
+	@Id
 	private UUID id;
 	private String path;
 	private String extension;
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Category category;
 	
 	

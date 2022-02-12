@@ -1,9 +1,11 @@
 package site.l524l.picstore.category;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class Category {
+	@Id
 	private String name;
 	private boolean isNsfw;
 
