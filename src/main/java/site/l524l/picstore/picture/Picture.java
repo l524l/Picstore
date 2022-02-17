@@ -55,6 +55,4 @@ public class Picture implements Media {
 	public Category getCategory() {
 		return this.category;
 	}
-	
-	
 }
