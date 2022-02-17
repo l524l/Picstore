@@ -1,15 +1,13 @@
 package site.l524l.picstore.media;
 
-public interface MediaService {
+public interface MediaService<T extends Media> {
 	
-	void addMedia(Media media);
+	void addMedia(T media);
 	
-	Media getConcreetMedia(Media media);
+	Media getConcreetMedia(T media);
 	
 	Media getRandomMedia();
 	
-	void removeMedia(Media media);
-	
-	
+	void removeMedia(T media);
 	
 }
