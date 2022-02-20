@@ -19,7 +19,7 @@ public class ApplicationConfig {
 	@Value("${storage.images.defaultpath}")
 	String basePath;
 	@Bean
-	MultipartConfigElement multipartConfigElement() {
+	public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
         factory.setMaxFileSize(DataSize.ofMegabytes(40));
         factory.setMaxRequestSize(DataSize.ofMegabytes(40));
@@ -27,7 +27,7 @@ public class ApplicationConfig {
     }
 	
 	@Bean
-	FileSystemStorageService storageServiceConfig() {
+	public FileSystemStorageService storageServiceConfig() {
 		return new FileSystemStorageService(Paths.get(basePath));
 	}
 }
