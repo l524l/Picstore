@@ -8,9 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class CategoryRepositoryTest {
-
 	@Autowired
-	CategoryRepository repo;
+	private CategoryRepository repo;
+	
 	
 	@Test
 	void findAllCategoryTest(){

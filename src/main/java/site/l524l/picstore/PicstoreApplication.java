@@ -9,7 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan
 @EnableAutoConfiguration
 public class PicstoreApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(PicstoreApplication.class, args);
 	}

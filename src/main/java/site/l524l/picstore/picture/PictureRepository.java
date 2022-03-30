@@ -3,8 +3,11 @@ package site.l524l.picstore.picture;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +18,14 @@ public interface PictureRepository extends JpaRepository<Picture, UUID> {
 	
 	public List<Picture> findPictureByCategory(Category category);
 	
+	public int countByCategory(Category category);
+	
+	public List<Picture> findPictureByCategory(Category category, Pageable padgable);
+	
 	@Query(value = "SELECT * FROM picture p WHERE p.category_name = :category", nativeQuery = true)
 	public List<Picture> findPictureByCategory(@Param("category")  String category);
+	
+	@Query(value = "SELECT * FROM picture p WHERE p.category_name = :category", nativeQuery = true)
+	public List<Picture> findPictureByCategory(@Param("category")  String category, Pageable padgable);
 	
 }

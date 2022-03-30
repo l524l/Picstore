@@ -4,7 +4,6 @@ import java.io.File;
 import java.nio.file.Path;
 
 public class FileExtention {
-	
 	public static String getExtention(String path) {
 		
 		if(path.lastIndexOf(".") == -1) return null;

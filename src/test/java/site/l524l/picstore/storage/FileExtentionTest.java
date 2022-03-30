@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.Test;
 
 public class FileExtentionTest {
-	
 	@Test
 	void getExtentionStringTest() {		
 		assertEquals(FileExtention.getExtention("test.test"), ".test");

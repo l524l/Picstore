@@ -11,19 +11,18 @@ import site.l524l.picstore.picture.PictureRepository;
 
 @SpringBootTest
 class PicstoreRepositoryTests {
-	
 	@Autowired
 	PictureRepository repo;
 	
 	@Test
 	void findByCategoryClass() {
-		Category category = new Category();
-		category.setName("neko");
-		category.setNsfw(false);
+		Category category = new Category("neko", false);
+
 		Picture p = repo.findPictureByCategory(category).get(0);
 
 		Assertions.assertEquals("34635de6-3987-453f-8db4-38d0a6a0b8f3", p.getId().toString());
 	}
+	
 	@Test
 	void findByCategoryString() {
 		

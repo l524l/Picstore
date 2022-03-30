@@ -15,18 +15,18 @@ import site.l524l.picstore.category.Category;
 @Transactional
 @Rollback(true)
 public class PictureServiceTest {
+	@Autowired
+	private PictureService service;
 	
+	@Autowired
+	private PictureRepository repository;
 	
-	@Autowired PictureService service;
-	@Autowired PictureRepository repository;
 	
 	@Test
 	void saveMediaTest() {
 		Picture picture = new Picture();
-		Category category = new Category();
-		category.setName("neko");
-		category.setNsfw(false);
-		
+		Category category = new Category("neko", false);
+
 		picture.setId(UUID.fromString("c5b5a155-04b7-43d1-b68f-287980184bc6"));
 		picture.setExtension(".png");
 		picture.setPath("/asd/");
@@ -42,7 +42,13 @@ public class PictureServiceTest {
 	
 	@Test
 	void getRandomMediaTest() {
-		System.out.println(service.getRandomMedia().getId());
 		Assertions.assertNotNull(service.getRandomMedia());
+	}
+	
+	@Test
+	void getRandomMediaByCategiryTest() {
+		Category category = new Category("neko", false);
+		
+		Assertions.assertEquals(service.getRandomMediaByCategory(category).getCategory().getName(), category.getName());
 	}
 }

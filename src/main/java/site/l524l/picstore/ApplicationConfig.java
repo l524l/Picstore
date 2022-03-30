@@ -15,14 +15,17 @@ import site.l524l.picstore.storage.FileSystemStorageService;
 
 @Configuration
 public class ApplicationConfig {
-	
 	@Value("${storage.images.defaultpath}")
-	String basePath;
+	private String basePath;
+	
+	
 	@Bean
 	public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
+        
         factory.setMaxFileSize(DataSize.ofMegabytes(40));
         factory.setMaxRequestSize(DataSize.ofMegabytes(40));
+        
         return factory.createMultipartConfig();
     }
 	

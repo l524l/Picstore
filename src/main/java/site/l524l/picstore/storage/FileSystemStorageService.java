@@ -5,18 +5,22 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public final class FileSystemStorageService implements StorageService {
 	
 	private Path basePath;
 	
+	
 	public FileSystemStorageService(Path basePath) {
 		this.basePath = basePath;
 	}
 	
+	
 	@Override
-	public String store(MultipartFile file) {
+	public StorageFile store(MultipartFile file) {
 		String name = UUID.randomUUID().toString();
 		
 		String extention = FileExtention.getExtention(file.getOriginalFilename());
@@ -24,7 +28,7 @@ public final class FileSystemStorageService implements StorageService {
 		try {
 			Files.copy(file.getInputStream(), basePath.resolve(name+extention));
 		
-			return basePath.resolve(name+extention).toString();
+			return new StorageFile(name, extention, basePath.toString());
 		} catch (IOException e) {
 			// TODO add specific exception 
 			throw new RuntimeException();
@@ -53,6 +57,7 @@ public final class FileSystemStorageService implements StorageService {
 	}
 
 	@Override
+	@PostConstruct
 	public void init() {
 		if(Files.notExists(basePath)) {
 			try {
