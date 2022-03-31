@@ -7,7 +7,6 @@ import java.util.UUID;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import site.l524l.picstore.category.Category;
 import site.l524l.picstore.media.Media;
 import site.l524l.picstore.media.MediaService;
 
@@ -49,7 +48,7 @@ public class PictureService implements MediaService<Picture> {
 	}
 
 	@Override
-	public Media getRandomMediaByCategory(Category category) {
+	public Media getRandomMediaByCategory(String category) {
 		int count = repository.countByCategory(category);
 		int member = random.nextInt(count);
 

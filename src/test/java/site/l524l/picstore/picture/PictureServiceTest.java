@@ -49,6 +49,6 @@ public class PictureServiceTest {
 	void getRandomMediaByCategiryTest() {
 		Category category = new Category("neko", false);
 		
-		Assertions.assertEquals(service.getRandomMediaByCategory(category).getCategory().getName(), category.getName());
+		Assertions.assertEquals(service.getRandomMediaByCategory(category.getName()).getCategory().getName(), category.getName());
 	}
 }
