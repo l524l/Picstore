@@ -3,9 +3,6 @@ package site.l524l.picstore.category;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @Entity
 public class Category {
 	@Id
