@@ -62,4 +62,9 @@ public class MainController {
 	public @ResponseBody Media randomPic() {
 		return pictureService.getRandomMedia();
 	}
+	
+	@RequestMapping("/randombycategoy")
+	public @ResponseBody Media randomByCategory(String category) {
+		return pictureService.getRandomMediaByCategory(category);
+	}
 }
