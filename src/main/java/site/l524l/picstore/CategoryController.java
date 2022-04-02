@@ -2,16 +2,17 @@ package site.l524l.picstore;
 
 import java.util.List;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import site.l524l.picstore.category.Category;
 import site.l524l.picstore.category.CategoryRepository;
 
-@Controller
+@RestController
+@RequestMapping("/category")
 public class CategoryController {
 
 	private final CategoryRepository repository;
@@ -22,8 +23,8 @@ public class CategoryController {
 	}
 	
 	
-	@GetMapping(value = "/category/add")
-	public @ResponseBody String addCategory(@RequestBody Category category) {
+	@GetMapping(value = "/add")
+	public String addCategory(@RequestBody Category category) {
 		if (repository.existsById(category.getName())) {
 			return "Category already exist!";
 		}
@@ -33,15 +34,15 @@ public class CategoryController {
 		return "ok";
 	}
 	
-	@GetMapping(value = "/category/remove")
-	public @ResponseBody String removeCategory(@RequestParam String name) {
+	@GetMapping(value = "/remove")
+	public String removeCategory(@RequestParam String name) {
 		repository.deleteById(name);
 		
 		return "ok";
 	}
 	
-	@GetMapping(value = "/category/change")
-	public @ResponseBody String changeCategory(@RequestBody Category category) {
+	@GetMapping(value = "/change")
+	public String changeCategory(@RequestBody Category category) {
 		if (repository.existsById(category.getName()) == false) {
 			return "Category doesn't exist!";
 		}
@@ -51,8 +52,8 @@ public class CategoryController {
 		return "ok";
 	}
 	
-	@GetMapping(value = "/category/list")
-	public @ResponseBody List<Category> getListOfCategory() {
+	@GetMapping(value = "/list")
+	public List<Category> getListOfCategory() {
 		return repository.findAll();
 	}
 }
