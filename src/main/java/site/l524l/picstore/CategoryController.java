@@ -3,6 +3,7 @@ package site.l524l.picstore;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +24,7 @@ public class CategoryController {
 	}
 	
 	
-	@GetMapping(value = "/add")
+	@PostMapping(value = "/add")
 	public String addCategory(@RequestBody Category category) {
 		if (repository.existsById(category.getName())) {
 			return "Category already exist!";
@@ -41,7 +42,7 @@ public class CategoryController {
 		return "ok";
 	}
 	
-	@GetMapping(value = "/change")
+	@PostMapping(value = "/change")
 	public String changeCategory(@RequestBody Category category) {
 		if (repository.existsById(category.getName()) == false) {
 			return "Category doesn't exist!";
