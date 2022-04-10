@@ -24,4 +24,5 @@ public interface UserBuilder {
 	UserBuilder addRole(Role role);
 	
 	User build();
+
 }
