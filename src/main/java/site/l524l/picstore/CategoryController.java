@@ -1,7 +1,7 @@
 package site.l524l.picstore;
 
-import java.util.List;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,36 +25,36 @@ public class CategoryController {
 	
 	
 	@PostMapping(value = "/add")
-	public String addCategory(@RequestBody Category category) {
+	public ResponseEntity<?> addCategory(@RequestBody Category category) {
 		if (repository.existsById(category.getName())) {
-			return "Category already exist!";
+			return ResponseEntity.ok("Category already exist!");
 		}
 		
 		repository.save(category);
 	
-		return "ok";
+		return ResponseEntity.ok().build();
 	}
 	
 	@GetMapping(value = "/remove")
-	public String removeCategory(@RequestParam String name) {
+	public ResponseEntity<?> removeCategory(@RequestParam String name) {
 		repository.deleteById(name);
 		
-		return "ok";
+		return ResponseEntity.ok(repository.findAll());
 	}
 	
 	@PostMapping(value = "/change")
-	public String changeCategory(@RequestBody Category category) {
+	public ResponseEntity<?> changeCategory(@RequestBody Category category) {
 		if (repository.existsById(category.getName()) == false) {
-			return "Category doesn't exist!";
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Category doesn't exist!");
 		}
 		
 		repository.save(category);
 		
-		return "ok";
+		return ResponseEntity.ok().build();
 	}
 	
 	@GetMapping(value = "/list")
-	public List<Category> getListOfCategory() {
-		return repository.findAll();
+	public ResponseEntity<?> getListOfCategory() {
+		return ResponseEntity.ok(repository.findAll());
 	}
 }

@@ -2,6 +2,8 @@ package site.l524l.picstore;
 
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import site.l524l.picstore.category.CategoryRepository;
-import site.l524l.picstore.media.Media;
 import site.l524l.picstore.media.MediaService;
 import site.l524l.picstore.picture.Picture;
 import site.l524l.picstore.storage.StorageFile;
@@ -35,7 +36,7 @@ public class PictureController {
 	
 	
 	@PostMapping(value = "/upload")
-	public String uploadPicture(@RequestParam("category") String category, @RequestParam("file") MultipartFile file) {
+	public ResponseEntity<?> uploadPicture(@RequestParam("category") String category, @RequestParam("file") MultipartFile file) {
 		if (!file.isEmpty()) {
 			StorageFile storageFile = storageService.store(file);
 			Picture pic = new Picture();
@@ -47,19 +48,19 @@ public class PictureController {
 			
 			pictureService.saveMedia(pic);
 			
-			return "ok";
+			return ResponseEntity.ok().build();
         } else {
-            return "Вам не удалось загрузить";
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
         }
 	}
 	
 	@GetMapping("/random")
-	public Media randomPic() {
-		return pictureService.getRandomMedia();
+	public ResponseEntity<?> randomPic() {
+		return ResponseEntity.ok(pictureService.getRandomMedia());
 	}
 	
 	@GetMapping("/randombycategoy")
-	public Media randomByCategory(String category) {
-		return pictureService.getRandomMediaByCategory(category);
+	public ResponseEntity<?> randomByCategory(String category) {
+		return ResponseEntity.ok(pictureService.getRandomMediaByCategory(category));
 	}
 }
