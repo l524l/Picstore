@@ -1,6 +1,6 @@
 package site.l524l.picstore.user;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public interface UserBuilder {
@@ -11,7 +11,7 @@ public interface UserBuilder {
 	
 	UserBuilder password(String password);
 	
-	UserBuilder roles(List<Role> roles);
+	UserBuilder roles(Set<Role> roles);
 	
 	UserBuilder accountNonExpired(boolean value);
 	

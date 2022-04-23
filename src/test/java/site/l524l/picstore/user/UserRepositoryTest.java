@@ -7,27 +7,24 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootTest
 class UserRepositoryTest {
 	@Autowired
 	private UserRepository repository;
-
+	@Autowired
+	private PasswordEncoder encoder;
+	
 	@Test
 	void saveTest() {
 		DefailtUserBuilder builder = new DefailtUserBuilder();
 		Role r1 = new Role("test_admin");
 		Role r2 = new Role("test_user");
 		
-		r1.addAuthority(new RoleAuthority("read_asd"));
-		r1.addAuthority(new RoleAuthority("write_asd"));
-		
-		r2.addAuthority(new RoleAuthority("read_asd"));
-		r2.addAuthority(new RoleAuthority("write_asd"));
-		
 		User user = builder.id(UUID.randomUUID())
 			.username(RandomString.make(7))
-			.password(RandomString.make(7))
+			.password("test")
 			.addRole(r1)
 			.addRole(r2)
 			.build();

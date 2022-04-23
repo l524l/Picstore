@@ -3,14 +3,13 @@ package site.l524l.picstore.user;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -26,9 +25,8 @@ public class User implements UserDetails {
 	
 	private String password;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id")
-	private List<Role> roles;
+	@ElementCollection
+	private Set<Role> roles;
 	
 	private boolean isAccountNonExpired;
 	
@@ -49,19 +47,19 @@ public class User implements UserDetails {
 		roles.remove(role);
 	}
 	
-	public List<Role> getRoles() {
+	public Set<Role> getRoles() {
 		return roles;
 	}
 	
-	public void setRoles(List<Role> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<RoleAuthority> list = new ArrayList<RoleAuthority>();
+		List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
 		
-		roles.forEach((x) -> list.addAll(x.getAuthorities()));
+		roles.forEach((x) -> list.add(x));
 		
 		return list;
 	}

@@ -1,27 +1,17 @@
 package site.l524l.picstore.user;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.Embeddable;
 
-@Entity
-public class Role {
-	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
-	private long id;
+import org.springframework.security.core.GrantedAuthority;
+
+@Embeddable
+public class Role implements GrantedAuthority {
 
 	private String name;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "role_id")
-	private List<RoleAuthority> authorities;
+	private static final long serialVersionUID = -6029655170812256612L;
 	
 	
 	public Role() {
@@ -30,28 +20,36 @@ public class Role {
 	
 	public Role(String name) {
 		this.name = name;
-		this.authorities = new ArrayList<RoleAuthority>();
-		this.authorities.add(new RoleAuthority(name));
 	}
 	
 	
-	public void addAuthority(RoleAuthority authority) {
-		if (authorities.contains(authority) == false) {
-			authorities.add(authority);
-		}
+	public void setName(String name) {
+		this.name = name;
 	}
-	
-	public void removeAuthority(RoleAuthority authority) {
-		if (authorities.contains(authority) == true) {
-			authorities.remove(authority);
-		}
-	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
-	public List<RoleAuthority> getAuthorities() {
-		return authorities;
+
+	@Override
+	public String getAuthority() {
+		return name;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Role other = (Role) obj;
+		return Objects.equals(name, other.name);
 	}
 }

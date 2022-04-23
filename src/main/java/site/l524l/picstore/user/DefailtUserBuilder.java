@@ -1,7 +1,7 @@
 package site.l524l.picstore.user;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class DefailtUserBuilder implements UserBuilder {
@@ -12,7 +12,7 @@ public class DefailtUserBuilder implements UserBuilder {
 	
 	private String password;
 	
-	private List<Role> roles = new ArrayList<Role>();
+	private Set<Role> roles = new HashSet<Role>();
 	
 	private boolean accountNonExpired = true;
 	
@@ -42,7 +42,7 @@ public class DefailtUserBuilder implements UserBuilder {
 	}
 
 	@Override
-	public UserBuilder roles(List<Role> roles) {
+	public UserBuilder roles(Set<Role> roles) {
 		this.roles = roles;
 		return this;
 	}
