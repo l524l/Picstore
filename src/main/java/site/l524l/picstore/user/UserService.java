@@ -135,9 +135,10 @@ public class UserService {
 	public User register(RegisterRequest request) {
 		DefailtUserBuilder builder = new DefailtUserBuilder();
 		
-		User user = builder.username(request.getUsername())
-		.password(passwordEncoder.encode(request.getPassword()))
-		.build();
+		User user = builder.id(UUID.randomUUID())
+				.username(request.getUsername())
+				.password(passwordEncoder.encode(request.getPassword()))
+				.build();
 	
 		return save(user);
 	}
