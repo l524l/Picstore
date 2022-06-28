@@ -1,7 +1,8 @@
-package site.l524l.picstore;
+package site.l524l.picstore.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +24,7 @@ public class CategoryController {
 		this.repository = repository;
 	}
 	
-	
+	@PreAuthorize("hasAuthority('CATEGORY_ADMIN')")
 	@PostMapping(value = "/add")
 	public ResponseEntity<?> addCategory(@RequestBody Category category) {
 		if (repository.existsById(category.getName())) {

@@ -133,7 +133,9 @@ public class UserService {
 	}
 	
 	public User register(RegisterRequest request) {
-		DefailtUserBuilder builder = new DefailtUserBuilder();
+		if (repository.existsByUsername(request.getUsername())) throw new RuntimeException();
+		
+			DefailtUserBuilder builder = new DefailtUserBuilder();
 		
 		User user = builder.id(UUID.randomUUID())
 				.username(request.getUsername())

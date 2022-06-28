@@ -1,4 +1,4 @@
-package site.l524l.picstore;
+package site.l524l.picstore.controllers;
 
 import java.util.UUID;
 

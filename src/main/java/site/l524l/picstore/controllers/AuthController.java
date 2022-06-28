@@ -1,4 +1,4 @@
-package site.l524l.picstore;
+package site.l524l.picstore.controllers;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.joining;
@@ -23,17 +23,20 @@ import org.springframework.web.bind.annotation.RestController;
 import site.l524l.picstore.objects.AuthRequest;
 import site.l524l.picstore.objects.RegisterRequest;
 import site.l524l.picstore.user.User;
+import site.l524l.picstore.user.UserService;
 
 @RestController
 public class AuthController {
 
 	private final AuthenticationManager authenticationManager;
 	private final JwtEncoder jwtEncoder;
+	private final UserService service;
 
 	
-	public AuthController(AuthenticationManager authenticationManager, JwtEncoder jwtEncoder) {
+	public AuthController(AuthenticationManager authenticationManager, JwtEncoder jwtEncoder, UserService service) {
 		this.authenticationManager = authenticationManager;
 		this.jwtEncoder = jwtEncoder;
+		this.service = service;
 	}
 
 	
@@ -51,9 +54,13 @@ public class AuthController {
 			String scope = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 					.collect(joining(" "));
 
-			JwtClaimsSet claims = JwtClaimsSet.builder().issuer("example.io").issuedAt(now)
-					.expiresAt(now.plusSeconds(expiry)).subject(format("%s,%s", user.getId(), user.getUsername()))
-					.claim("roles", scope).build();
+			JwtClaimsSet claims = JwtClaimsSet.builder()
+					.issuer("example.io")
+					.issuedAt(now)
+					.expiresAt(now.plusSeconds(expiry))
+					.subject(format("%s,%s", user.getId(), user.getUsername()))
+					.claim("roles", scope)
+					.build();
 
 			String token = this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
@@ -65,6 +72,8 @@ public class AuthController {
 
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
-		return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+		service.register(request);
+		
+		return ResponseEntity.ok().build();
 	}
 }
