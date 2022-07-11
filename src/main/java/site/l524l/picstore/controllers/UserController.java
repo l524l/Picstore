@@ -4,7 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import site.l524l.picstore.converters.RolesSetConverter;
 import site.l524l.picstore.objects.AddUserRequest;
@@ -15,7 +17,7 @@ import site.l524l.picstore.user.UserService;
 
 @Controller
 @RequestMapping("/user")
-@PreAuthorize("hasAuthority('CATEGORY_ADMIN')")
+@PreAuthorize("hasAuthority('USER_ADMIN')")
 public class UserController {
 	
 	private UserService userService;
@@ -28,9 +30,8 @@ public class UserController {
 	}
 	
 	
-	
 	@RequestMapping("/add")
-	public ResponseEntity<?> add(AddUserRequest request) {
+	public ResponseEntity<?> add(@RequestBody AddUserRequest request) {
 		if(userService.isUserExist(request.getUsername())) 
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		
@@ -44,8 +45,18 @@ public class UserController {
 		return ResponseEntity.ok().build();
 	}
 	
+	@RequestMapping("/remove")
+	public ResponseEntity<?> remove(@RequestParam String username) {
+		if(userService.isUserExist(username) == false) 
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		
+		userService.remove(username);
+		
+		return ResponseEntity.ok().build();
+	}
+	
 	@RequestMapping("/setRoles")
-	public ResponseEntity<?> setRoles(SetRolesRequest request) {
+	public ResponseEntity<?> setRoles(@RequestBody SetRolesRequest request) {
 		if(userService.isUserExist(request.getUsername()) == false) 
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		
@@ -54,6 +65,26 @@ public class UserController {
 		user.setRoles(setConverter.convert(request.getRoles()));
 		
 		userService.save(user);
+		
+		return ResponseEntity.ok().build();
+	}
+	
+	@RequestMapping("/lock")
+	public ResponseEntity<?> lock(@RequestParam String username) {
+		if(userService.isUserExist(username) == false) 
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		
+		userService.lock(username);
+		
+		return ResponseEntity.ok().build();
+	}
+	
+	@RequestMapping("/unlock")
+	public ResponseEntity<?> unlock(@RequestParam String username) {
+		if(userService.isUserExist(username) == false) 
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		
+		userService.unlock(username);
 		
 		return ResponseEntity.ok().build();
 	}

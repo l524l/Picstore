@@ -5,6 +5,8 @@ import java.security.interfaces.RSAPublicKey;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -84,6 +86,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().httpBasic(Customizer.withDefaults()).oauth2ResourceServer().jwt();
 	}
 	
+	@Bean
+    public RoleHierarchy roleHierarchy(){
+        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        roleHierarchy.setHierarchy(
+                "MAIN_ADMIN > CATEGORY_ADMIN\n"+
+                "MAIN_ADMIN > USER_ADMIN\n"+
+                "MAIN_ADMIN > PICTURE_ADMIN\n"
+        );
+        return roleHierarchy;
+    }
 
 	@Bean
 	public JwtEncoder jwtEncoder() {
