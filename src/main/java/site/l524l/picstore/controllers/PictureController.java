@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import site.l524l.picstore.category.CategoryRepository;
+import site.l524l.picstore.converters.PublicMediaConverter;
 import site.l524l.picstore.media.MediaService;
 import site.l524l.picstore.picture.Picture;
 import site.l524l.picstore.storage.StorageFile;
@@ -28,11 +29,14 @@ public class PictureController {
 	
 	private final CategoryRepository repository;
 	
+	private final PublicMediaConverter mediaConverter;
 	
-	public PictureController(StorageService storageService, MediaService<Picture> pictureService, CategoryRepository repository) {
+	
+	public PictureController(StorageService storageService, MediaService<Picture> pictureService, CategoryRepository repository, PublicMediaConverter mediaConverter) {
 		this.storageService = storageService;
 		this.pictureService = pictureService;
 		this.repository = repository;
+		this.mediaConverter = mediaConverter;
 	}
 	
 	
@@ -58,11 +62,11 @@ public class PictureController {
 	
 	@GetMapping("/random")
 	public ResponseEntity<?> randomPic() {
-		return ResponseEntity.ok(pictureService.getRandomMedia());
+		return ResponseEntity.ok(mediaConverter.convert(pictureService.getRandomMedia()));
 	}
 	
 	@GetMapping("/randombycategoy")
 	public ResponseEntity<?> randomByCategory(String category) {
-		return ResponseEntity.ok(pictureService.getRandomMediaByCategory(category));
+		return ResponseEntity.ok(mediaConverter.convert(pictureService.getRandomMediaByCategory(category)));
 	}
 }
