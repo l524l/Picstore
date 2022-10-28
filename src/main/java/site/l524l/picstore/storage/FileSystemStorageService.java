@@ -31,7 +31,7 @@ public final class FileSystemStorageService implements StorageService {
 			return new StorageFile(name, extention, basePath.toString());
 		} catch (IOException e) {
 			// TODO add specific exception 
-			throw new RuntimeException();
+			throw new RuntimeException(String.format("file: %s path: %s", file.getOriginalFilename(), basePath.resolve(name+extention)), e);
 		}
 	}
 

@@ -18,15 +18,15 @@ public interface PictureRepository extends JpaRepository<Picture, UUID> {
 	
 	public int countByCategory(Category category);
 	
-	@Query(value = "SELECT COUNT(*) FROM picture WHERE category_name = :category", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM api.picture WHERE category_name = :category", nativeQuery = true)
 	public int countByCategory(@Param("category") String category);
 	
 	public List<Picture> findPictureByCategory(Category category, Pageable padgable);
 	
-	@Query(value = "SELECT * FROM picture p WHERE p.category_name = :category", nativeQuery = true)
+	@Query(value = "SELECT * FROM api.picture p WHERE p.category_name = :category", nativeQuery = true)
 	public List<Picture> findPictureByCategory(@Param("category")  String category);
 	
-	@Query(value = "SELECT * FROM picture p WHERE p.category_name = :category", nativeQuery = true)
+	@Query(value = "SELECT * FROM api.picture p WHERE p.category_name = :category", nativeQuery = true)
 	public List<Picture> findPictureByCategory(@Param("category")  String category, Pageable padgable);
 	
 }
